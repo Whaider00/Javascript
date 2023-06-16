@@ -63,12 +63,5 @@ function filterinputhandler(event){
 
     const selectallitems = document.querySelectorAll(".collection-item");
 
-    selectallitems.forEach(function (singleitem){
-        const textitem = singleitem.innerText.toLowerCase();
-        if (textitem.indexOf(searchfiltervalue) == -1) {
-            singleitem.style.display = "none";
-        } else {
-            singleitem.style.display = "block";
-        }
-    });
+   
 }
