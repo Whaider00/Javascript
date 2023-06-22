@@ -13,6 +13,13 @@ function ontasksubmithandler(event){
         alert("please input the task value")
         return;
     }
+    
+    taskappendwithdelete(taskinputvalue);
+    storetasksinstorage(taskinputvalue);
+    taskinputvalue = "";
+}
+
+function taskappendwithdelete(taskinputvalue){
     const elementlist = document.createElement("li");
     elementlist.className = "collection-item";
     elementlist.innerHTML = `
@@ -40,7 +47,9 @@ function removetaskhandler(event) {
     const currentElement = event.target;
     console.log(currentElement);
     if (confirm("Are you sure ?")) {
-        currentElement.parentElement.parentElement.remove();
+       const selectlielements = currentElement.parentElement.parentElement;
+       taskremovefromstorage(selectlielements.innerText);
+       selectlielements.remove();
       }
     
 }
@@ -48,8 +57,9 @@ function removetaskhandler(event) {
 clearbtn.addEventListener("click", taskclearhandler);
 function taskclearhandler(event){
     event.preventDefault();
-    if(confirm("Are yiu sure?")){
+    if(confirm("Are you sure?")){
         collection.innerHTML = "";
+        localStorage.removeItem("tasks");
     }
 
 }
@@ -71,4 +81,41 @@ function filterinputhandler(event){
             singleitem.style.display = "block";
         }
     });
+}
+
+function gettaskfromstorage() {
+    const getoldtaskfromstorage = localStorage.getItem("tasks");
+
+    if (getoldtaskfromstorage) {
+        return JSON.parse(getoldtaskfromstorage);
+    } else {
+        return [];
+    }
+}
+
+function storetasksinstorage(taskinputvalue){
+
+    const oldtasks = gettaskfromstorage();
+    oldtasks.push(taskinputvalue);
+
+    localStorage.setItem("tasks", JSON.stringify(oldtasks))
+}
+
+document.addEventListener("DOMContentLoaded", gettaskfromstorageandappend);
+
+function gettaskfromstorageandappend(){
+    const oldtasks = gettaskfromstorage();
+    oldtasks.forEach(function (singletask) {
+        taskappendwithdelete(singletask);
+    });
+}
+
+function taskremovefromstorage(taskvalue) {
+    const oldtasks = gettaskfromstorage();
+    oldtasks.forEach(function (singletaskfromstorage, index){
+        if (singletaskfromstorage === taskvalue){
+            oldtasks.splice(index, 1);
+        }
+    })
+    localStorage.setItem("tasks", JSON.stringify(oldtasks));
 }
