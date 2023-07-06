@@ -66,7 +66,3 @@ function expensevalueappendinexpenses(expenseamountvalue){
     budgetexpenses.append(expenseamountvalue);
 
 }
-
-
-// const balance = eval(budgetshow.innerHTML - expenses)
-//     document.querySelector("#balance-amount").innerHTML = balance
