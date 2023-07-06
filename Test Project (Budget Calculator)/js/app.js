@@ -48,6 +48,7 @@ function onexpensesubmithandler(event){
         titleappendwithdelete(expenseinputvalue);
         amountappendwithdelete(expenseamountvalue);
         expensevalueappendinexpenses(expenseamountvalue)
+        deleteexpense();
  }
  
  function titleappendwithdelete(expenseinputvalue){
@@ -65,4 +66,25 @@ function amountappendwithdelete(expenseamountvalue){
 function expensevalueappendinexpenses(expenseamountvalue){
     budgetexpenses.append(expenseamountvalue);
 
+}
+function deleteexpense(){
+    const deleteallexpenses = document.querySelectorAll(".delete-icon i");
+
+    deleteallexpenses.forEach(function (singleexpense) {
+        singleexpense.addEventListener("click", removeexpensehandler);
+    });
+       
+}
+function removeexpensehandler(event) {
+    event.preventDefault();
+    
+    const currentElement = event.target;
+    console.log(currentElement);
+    if (confirm("Are you sure ?")) {
+       const selectlielements = currentElement.parentElement.parentElement.parentElement;
+              selectlielements.remove();
+      }
+    budgetexpenses.innerHTML = "";
+    const balancevalue = budgetbalance;
+    balancevalue.innerHTML = eval(budgetshow.innerHTML - budgetexpenses.innerHTML);
 }
